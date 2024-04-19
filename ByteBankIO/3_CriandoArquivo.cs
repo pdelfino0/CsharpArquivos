@@ -1,28 +1,24 @@
 ﻿using System.Text;
+using FileStream = System.IO.FileStream;
 
 partial class Program
 {
-    static void CriarArquivo()
+    private static void CriarArquivo()
     {
-        var caminhoNovoArquivo = "contasExportadas.csv";
-        using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
-        {
-            var contaComoString = "456,78945,4785.40,Gustavo Santos";
-            var encoding = Encoding.UTF8;
-            var bytes = encoding.GetBytes(contaComoString);
+        const string path = "contasExportadas.csv";
+        using var fluxoDoArquivo = new FileStream(path, FileMode.Create);
+        const string contaComoString = "456,78945,4785.40,Gustavo Santos";
+        var encoding = Encoding.UTF8;
+        var bytes = encoding.GetBytes(contaComoString);
 
-            fluxoDoArquivo.Write(bytes, 0, bytes.Length);
-        }
+        fluxoDoArquivo.Write(bytes, 0, bytes.Length);
     }
 
-    static void CriarArquivoComWriter()
+    private static void CriarArquivoComWriter()
     {
-        var caminhoNovoArquivo = "contasExportadas.csv";
+        const string caminhoNovoArquivo = "contasExportadas.csv";
 
-        using (var fluxoDoArquivo = new FileStream(caminhoNovoArquivo, FileMode.Create))
-        using (var escritor = new StreamWriter(fluxoDoArquivo))
-        {
-            escritor.Write("456,65465,456.0,Pedro");
-        }
+        using var escritor = new StreamWriter(new FileStream(caminhoNovoArquivo, FileMode.Create));
+        escritor.Write("456,65465,456.0,Pedro");
     }
 }
